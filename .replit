@@ -1,0 +1,7 @@
+run = "python3 -m http.server 3000"
+entrypoint = "index.html"
+
+[deployment]
+run = ["sh", "-c", "python3 -m http.server 3000"]
+deploymentTarget = "static"
+publicDir = "."
