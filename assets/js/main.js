@@ -337,6 +337,9 @@
 
   function togglePart(id, silent) {
     var el = document.querySelector('.glass-part[data-part="' + id + '"]');
+    if (el && el.closest('svg')) el.closest('svg').classList.add('interacted');
+    var hint = document.querySelector('.car-hint');
+    if (hint) hint.classList.add('hide');
     var i = selectedParts.indexOf(id);
     if (i > -1) {
       selectedParts.splice(i, 1);

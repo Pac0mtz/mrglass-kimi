@@ -95,29 +95,62 @@
     </div>
     <div class="car-select-wrap">
       <div class="car-stage reveal">
+        <span class="car-hint">Tap the broken glass</span>
         <svg viewBox="0 0 360 620" role="group" aria-label="Interactive vehicle glass selector — tap a glass panel">
-          <text class="car-label" x="180" y="22" text-anchor="middle">FRONT</text>
+          <defs>
+            <linearGradient id="glassGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#c4eaff"/>
+              <stop offset=".55" stop-color="#5fb7ef"/>
+              <stop offset="1" stop-color="#2f7fd0"/>
+            </linearGradient>
+            <linearGradient id="bodyGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#14407c"/>
+              <stop offset=".5" stop-color="#0d2c55"/>
+              <stop offset="1" stop-color="#0a2144"/>
+            </linearGradient>
+            <linearGradient id="roofGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#103364"/>
+              <stop offset="1" stop-color="#0b2550"/>
+            </linearGradient>
+            <filter id="carBlur" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="12"/></filter>
+          </defs>
+          <text class="car-label" x="180" y="27" text-anchor="middle">FRONT</text>
+          <!-- ground shadow -->
+          <ellipse class="car-shadow" cx="180" cy="322" rx="152" ry="296" filter="url(#carBlur)"/>
+          <!-- wheels -->
+          <rect class="car-wheel" x="30" y="128" width="20" height="66" rx="9"/>
+          <rect class="car-wheel" x="310" y="128" width="20" height="66" rx="9"/>
+          <rect class="car-wheel" x="30" y="428" width="20" height="66" rx="9"/>
+          <rect class="car-wheel" x="310" y="428" width="20" height="66" rx="9"/>
           <!-- car body -->
-          <path class="car-body-path" d="M60,28 C45,40 34,90 30,170 L26,300 C24,380 30,520 44,568 C52,592 68,602 96,606 L264,606 C292,602 308,592 316,568 C330,520 336,380 334,300 L330,170 C326,90 315,40 300,28 C250,12 110,12 60,28 Z"/>
-          <!-- body details -->
-          <path class="car-detail" d="M66,78 L294,78"/>
-          <path class="car-detail" d="M72,566 L288,566"/>
-          <path class="car-detail" d="M40,44 L66,54 M320,44 L294,54"/>
+          <path class="car-body-path" d="M104,36 C78,42 60,66 54,108 C48,150 44,205 44,262 L44,378 C44,458 50,528 62,564 C70,588 88,597 118,599 L242,599 C272,597 290,588 298,564 C310,528 316,458 316,378 L316,262 C316,205 312,150 306,108 C300,66 282,42 256,36 C210,26 150,26 104,36 Z"/>
+          <!-- headlights / taillights -->
+          <rect class="car-light" x="72" y="40" width="46" height="13" rx="6.5" transform="rotate(-7 95 46)"/>
+          <rect class="car-light" x="242" y="40" width="46" height="13" rx="6.5" transform="rotate(7 265 46)"/>
+          <rect class="car-tail" x="68" y="576" width="50" height="13" rx="6.5"/>
+          <rect class="car-tail" x="242" y="576" width="50" height="13" rx="6.5"/>
+          <!-- mirrors -->
+          <rect class="car-mirror" x="26" y="166" width="22" height="12" rx="6"/>
+          <rect class="car-mirror" x="312" y="166" width="22" height="12" rx="6"/>
+          <!-- hood & trunk lines -->
+          <path class="car-detail" d="M72,66 Q180,50 288,66"/>
+          <path class="car-detail" d="M74,560 Q180,574 286,560"/>
+          <!-- roof panel -->
+          <path class="car-roof" d="M96,176 L264,176 L268,446 L92,446 Z"/>
           <!-- windshield -->
-          <path class="glass-part" data-part="windshield" d="M96,112 L264,112 L282,166 L78,166 Z"><title>Windshield</title></path>
+          <path class="glass-part" data-part="windshield" d="M100,88 L260,88 L284,156 Q180,172 76,156 Z"><title>Windshield</title></path>
           <!-- side windows -->
-          <path class="glass-part" data-part="driver-front" d="M58,190 L88,186 L90,300 L56,304 Z"><title>Driver Front Window</title></path>
-          <path class="glass-part" data-part="driver-rear" d="M56,322 L90,318 L88,440 L58,444 Z"><title>Driver Rear Window</title></path>
-          <path class="glass-part" data-part="passenger-front" d="M272,186 L302,190 L304,304 L270,300 Z"><title>Passenger Front Window</title></path>
-          <path class="glass-part" data-part="passenger-rear" d="M270,318 L304,322 L302,444 L272,440 Z"><title>Passenger Rear Window</title></path>
+          <path class="glass-part" data-part="driver-front" d="M58,192 L90,188 L92,296 L56,300 Z"><title>Driver Front Window</title></path>
+          <path class="glass-part" data-part="driver-rear" d="M56,320 L92,316 L90,436 L58,440 Z"><title>Driver Rear Window</title></path>
+          <path class="glass-part" data-part="passenger-front" d="M270,188 L302,192 L304,300 L268,296 Z"><title>Passenger Front Window</title></path>
+          <path class="glass-part" data-part="passenger-rear" d="M268,316 L304,320 L302,440 L270,436 Z"><title>Passenger Rear Window</title></path>
           <!-- quarter glass -->
-          <path class="glass-part" data-part="driver-quarter" d="M56,460 L84,456 L84,536 L54,546 Z"><title>Driver Quarter Glass</title></path>
-          <path class="glass-part" data-part="passenger-quarter" d="M276,456 L304,460 L306,546 L276,536 Z"><title>Passenger Quarter Glass</title></path>
+          <path class="glass-part" data-part="driver-quarter" d="M56,456 L86,452 L86,528 L54,540 Z"><title>Driver Quarter Glass</title></path>
+          <path class="glass-part" data-part="passenger-quarter" d="M274,452 L304,456 L306,540 L274,528 Z"><title>Passenger Quarter Glass</title></path>
           <!-- rear windshield -->
-          <path class="glass-part" data-part="rear-windshield" d="M78,472 L282,472 L264,528 L96,528 Z"><title>Rear Windshield</title></path>
+          <path class="glass-part" data-part="rear-windshield" d="M80,468 Q180,454 280,468 L262,532 L98,532 Z"><title>Rear Windshield</title></path>
           <!-- sunroof -->
-          <rect class="glass-part" data-part="sunroof" x="146" y="238" width="68" height="88" rx="14"><title>Sunroof / Moonroof</title></rect>
-          <text class="car-label" x="180" y="300" text-anchor="middle" style="fill:rgba(255,255,255,.35)">TAP GLASS</text>
+          <rect class="glass-part" data-part="sunroof" x="142" y="228" width="76" height="94" rx="16"><title>Sunroof / Moonroof</title></rect>
           <text class="car-label" x="180" y="616" text-anchor="middle">REAR</text>
         </svg>
       </div>
