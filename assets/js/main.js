@@ -208,6 +208,205 @@
     });
   }
 
+  /* ---------- Toast notifications ---------- */
+  var toastStack = document.createElement('div');
+  toastStack.className = 'toast-stack';
+  document.body.appendChild(toastStack);
+  function toast(msg, type) {
+    var t = document.createElement('div');
+    t.className = 'toast ' + (type || 'info');
+    t.innerHTML = '<span class="t-ico">' + (type === 'success' ? '✓' : 'i') + '</span><span>' + msg + '</span>';
+    toastStack.appendChild(t);
+    setTimeout(function () {
+      t.classList.add('out');
+      setTimeout(function () { t.remove(); }, 320);
+    }, 3200);
+  }
+
+  /* ---------- Modal helpers ---------- */
+  function openModal(el) {
+    el.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal(el) {
+    el.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  function wireModalClose(el) {
+    el.querySelector('.modal-x').addEventListener('click', function () { closeModal(el); });
+    el.addEventListener('click', function (e) { if (e.target === el) closeModal(el); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && el.classList.contains('open')) closeModal(el); });
+  }
+
+  /* ---------- Estimate modal (injected on every page) ---------- */
+  var PART_NAMES = {
+    'windshield': 'Windshield',
+    'rear-windshield': 'Rear Windshield',
+    'driver-front': 'Driver Front Window',
+    'driver-rear': 'Driver Rear Window',
+    'passenger-front': 'Passenger Front Window',
+    'passenger-rear': 'Passenger Rear Window',
+    'driver-quarter': 'Driver Quarter Glass',
+    'passenger-quarter': 'Passenger Quarter Glass',
+    'sunroof': 'Sunroof / Moonroof'
+  };
+  var selectedParts = [];
+
+  var estModal = document.createElement('div');
+  estModal.className = 'modal-overlay';
+  estModal.setAttribute('role', 'dialog');
+  estModal.setAttribute('aria-label', 'Free estimate form');
+  estModal.innerHTML =
+    '<div class="modal-card">' +
+      '<button class="modal-x" aria-label="Close">✕</button>' +
+      '<h3>Get Your Free Estimate</h3>' +
+      '<p class="modal-sub">We typically reply the same day — mobile service available.</p>' +
+      '<div class="sel-chips" id="est-chips"></div>' +
+      '<form id="est-form">' +
+        '<div class="f-row">' +
+          '<div class="f-group"><label for="est-name">Name *</label><input id="est-name" name="Name" type="text" required placeholder="Your name"></div>' +
+          '<div class="f-group"><label for="est-phone">Phone *</label><input id="est-phone" name="Phone" type="tel" required placeholder="(___) ___-____"></div>' +
+        '</div>' +
+        '<div class="f-row">' +
+          '<div class="f-group"><label for="est-email">E-Mail</label><input id="est-email" name="Email" type="email" placeholder="you@email.com"></div>' +
+          '<div class="f-group"><label for="est-vin">VIN (optional)</label><input id="est-vin" name="VIN" type="text" maxlength="17" placeholder="17 characters"></div>' +
+        '</div>' +
+        '<div class="f-group"><label for="est-details">Damage Details</label><textarea id="est-details" name="Details" placeholder="Year, make, model — and what happened"></textarea></div>' +
+        '<button class="btn btn-primary" type="submit" style="width:100%">Send Estimate Request</button>' +
+        '<p class="form-note">You can also call <a href="tel:7735260013" style="color:var(--blue);font-weight:700">(773) 526-0013</a> — photos of the damage help us quote faster.</p>' +
+      '</form>' +
+    '</div>';
+  document.body.appendChild(estModal);
+  wireModalClose(estModal);
+
+  var estChips = estModal.querySelector('#est-chips');
+  function renderChips(container, removable) {
+    container.innerHTML = '';
+    if (!selectedParts.length) {
+      if (container === estChips) container.innerHTML = '<span class="sel-empty">No specific glass selected — describe it below.</span>';
+      return;
+    }
+    selectedParts.forEach(function (id) {
+      var chip = document.createElement('span');
+      chip.className = 'sel-chip';
+      chip.innerHTML = PART_NAMES[id] || id;
+      if (removable) {
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.setAttribute('aria-label', 'Remove ' + PART_NAMES[id]);
+        b.textContent = '✕';
+        b.addEventListener('click', function () { togglePart(id, true); });
+        chip.appendChild(b);
+      }
+      container.appendChild(chip);
+    });
+  }
+
+  function openEstimate() {
+    renderChips(estChips, true);
+    var carVin = document.getElementById('car-vin');
+    if (carVin && carVin.value) estModal.querySelector('#est-vin').value = carVin.value;
+    openModal(estModal);
+  }
+
+  estModal.querySelector('#est-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var form = e.target;
+    var data = new FormData(form);
+    var lines = [];
+    if (selectedParts.length) lines.push('Selected glass: ' + selectedParts.map(function (id) { return PART_NAMES[id]; }).join(', '));
+    data.forEach(function (v, k) { if (v) lines.push(k + ': ' + v); });
+    window.location.href = 'mailto:info@mrglasschicago.com?subject=' +
+      encodeURIComponent('Estimate Request — ' + (selectedParts.length ? selectedParts.map(function (id) { return PART_NAMES[id]; }).join(', ') : 'Website')) +
+      '&body=' + encodeURIComponent(lines.join('\n'));
+    closeModal(estModal);
+    toast('Opening your email app — request ready to send!', 'success');
+    form.reset();
+  });
+
+  /* ---------- Scroll-triggered promo modal (once per session) ---------- */
+  var smSeen = false;
+  try { smSeen = sessionStorage.getItem('mrg_sm') === '1'; } catch (err) {}
+  if (!smSeen) {
+    var smModal = document.createElement('div');
+    smModal.className = 'modal-overlay';
+    smModal.setAttribute('role', 'dialog');
+    smModal.setAttribute('aria-label', 'Free estimate offer');
+    smModal.innerHTML =
+      '<div class="modal-card scroll-modal-card">' +
+        '<button class="modal-x" aria-label="Close">✕</button>' +
+        '<span class="sm-badge">Free Estimate</span>' +
+        '<h3>Cracked or shattered glass?</h3>' +
+        '<p>Don\'t wait for it to spread. Tap your broken glass, get a free estimate — and we\'ll come to you anywhere in Chicagoland.</p>' +
+        '<div class="btn-row">' +
+          '<button class="btn btn-primary" id="sm-est">Get My Free Estimate</button>' +
+          '<a class="btn btn-light" href="tel:7735260013">Call (773) 526-0013</a>' +
+        '</div>' +
+      '</div>';
+    document.body.appendChild(smModal);
+    wireModalClose(smModal);
+    smModal.querySelector('#sm-est').addEventListener('click', function () {
+      closeModal(smModal);
+      openEstimate();
+      toast('Tell us about your glass damage', 'info');
+    });
+    var smShown = false;
+    function onScrollModal() {
+      if (smShown) return;
+      var scrolled = (window.scrollY + window.innerHeight) / document.documentElement.scrollHeight;
+      if (scrolled > 0.55) {
+        smShown = true;
+        openModal(smModal);
+        try { sessionStorage.setItem('mrg_sm', '1'); } catch (err) {}
+        window.removeEventListener('scroll', onScrollModal);
+      }
+    }
+    window.addEventListener('scroll', onScrollModal, { passive: true });
+  }
+
+  /* ---------- Interactive car glass selector ---------- */
+  var glassParts = document.querySelectorAll('.glass-part');
+  var selChipsBox = document.getElementById('sel-chips');
+  var estOpenBtn = document.getElementById('est-open');
+
+  function syncSelectorUI() {
+    if (selChipsBox) {
+      renderChips(selChipsBox, true);
+      var empty = document.getElementById('sel-empty');
+      if (!selectedParts.length) {
+        selChipsBox.innerHTML = '<span class="sel-empty" id="sel-empty">No glass selected yet — tap the car.</span>';
+      }
+    }
+    if (estOpenBtn) estOpenBtn.disabled = selectedParts.length === 0;
+  }
+
+  function togglePart(id, silent) {
+    var el = document.querySelector('.glass-part[data-part="' + id + '"]');
+    var i = selectedParts.indexOf(id);
+    if (i > -1) {
+      selectedParts.splice(i, 1);
+      if (el) el.classList.remove('selected');
+      if (!silent) toast(PART_NAMES[id] + ' removed', 'info');
+    } else {
+      selectedParts.push(id);
+      if (el) el.classList.add('selected');
+      if (!silent) toast(PART_NAMES[id] + ' added to your estimate', 'success');
+    }
+    syncSelectorUI();
+  }
+
+  if (glassParts.length) {
+    glassParts.forEach(function (el) {
+      el.addEventListener('click', function () { togglePart(el.getAttribute('data-part')); });
+    });
+  }
+  if (estOpenBtn) {
+    estOpenBtn.addEventListener('click', function () {
+      openEstimate();
+      toast(selectedParts.length + ' glass part' + (selectedParts.length > 1 ? 's' : '') + ' selected', 'info');
+    });
+  }
+
   /* Current year */
   document.querySelectorAll('[data-year]').forEach(function (el) {
     el.textContent = new Date().getFullYear();
