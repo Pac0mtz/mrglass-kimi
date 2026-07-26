@@ -107,7 +107,7 @@ section{position:relative}
 
 /* ---------- Hero background video ---------- */
 .hero-video-bg{position:absolute;inset:0;overflow:hidden;pointer-events:none;background:url('../img/audi-glass-replacement.jpg') center/cover no-repeat}
-.hero-video-bg iframe{position:absolute;top:50%;left:50%;width:max(100vw,177.78vh);height:max(56.25vw,100vh);transform:translate(-50%,-50%);border:0}
+.hero-video-bg iframe{position:absolute;top:50%;left:50%;width:calc(max(100vw,177.78vh) + 290px);height:calc(max(56.25vw,100vh) + 165px);transform:translate(-50%,-50%);border:0}
 .hero-video-overlay{position:absolute;inset:0;background:linear-gradient(160deg,rgba(10,31,68,.88) 0%,rgba(13,63,134,.72) 60%,rgba(10,31,68,.85) 100%)}
 .hero-video-overlay::after{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.08) 1px,transparent 1px);background-size:26px 26px;mask-image:linear-gradient(to bottom,black,transparent 85%)}
 .hero .hero-inner{position:relative;z-index:2;max-width:60rem;padding:6.5rem 0 6rem}
@@ -166,6 +166,11 @@ section{position:relative}
 .est-btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
 .car-panel .mini-note{font-size:.8rem;color:var(--muted);margin-top:.8rem}
 @media(max-width:920px){.car-select-wrap{grid-template-columns:1fr;gap:2.2rem}.car-stage{margin-inline:auto}}
+.car-stage.shake{animation:carShake .45s var(--ease)}
+@keyframes carShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+.est-inline-form{margin-top:.4rem}
+.est-inline-form .sel-chips{margin:.4rem 0 1rem}
+.est-inline-form button[type=submit]{width:100%}
 
 /* ---------- Modals ---------- */
 .modal-overlay{position:fixed;inset:0;z-index:300;background:rgba(6,16,36,.72);backdrop-filter:blur(6px);display:grid;place-items:center;padding:1.2rem;opacity:0;visibility:hidden;transition:.35s}

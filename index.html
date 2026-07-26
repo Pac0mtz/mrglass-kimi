@@ -127,7 +127,7 @@
       <p class="lead">Mr. Glass Chicago is Chicagoland's go-to vehicle windshield repair company. Chip repair, windshield replacement, and expert auto tinting — done at your home, office, or wherever you are.</p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="tel:7735260013">Call (773) 526-0013</a>
-        <a class="btn btn-light" href="contact.html">Get A Free Estimate</a>
+        <a class="btn btn-light" href="#estimator">Get A Free Estimate</a>
       </div>
       <div class="hero-trust">
         <span class="trust-item">
@@ -342,12 +342,20 @@
         <span class="tag">Interactive Estimator</span>
         <h2>Select Your Broken Glass</h2>
         <p>Tap the damaged glass on the vehicle — windshield, side windows, rear glass or sunroof. Add your VIN for a faster, more accurate quote, then get your free estimate.</p>
-        <div class="sel-chips" id="sel-chips"><span class="sel-empty" id="sel-empty">No glass selected yet — tap the car.</span></div>
-        <div class="vin-row">
-          <input id="car-vin" type="text" maxlength="17" placeholder="VIN (optional — 17 characters, helps us match your exact glass)" aria-label="Vehicle VIN">
-        </div>
-        <button class="btn btn-primary est-btn" id="est-open" disabled>Get My Free Estimate</button>
-        <p class="mini-note">Free estimates · Mobile service — we come to you · No obligation</p>
+        <form class="est-inline-form" id="est-inline-form">
+          <div class="sel-chips" id="sel-chips"><span class="sel-empty" id="sel-empty">No glass selected yet — tap the car.</span></div>
+          <div class="f-row">
+            <div class="f-group"><label for="est-name">Name *</label><input id="est-name" name="Name" type="text" required placeholder="Your name"></div>
+            <div class="f-group"><label for="est-phone">Phone *</label><input id="est-phone" name="Phone" type="tel" required placeholder="(___) ___-____"></div>
+          </div>
+          <div class="f-row">
+            <div class="f-group"><label for="est-email">E-Mail</label><input id="est-email" name="Email" type="email" placeholder="you@email.com"></div>
+            <div class="f-group"><label for="car-vin">VIN (optional)</label><input id="car-vin" name="VIN" type="text" maxlength="17" placeholder="17 characters — matches your exact glass"></div>
+          </div>
+          <div class="f-group"><label for="est-details">Damage Details</label><textarea id="est-details" name="Details" placeholder="Year, make, model — and what happened"></textarea></div>
+          <button class="btn btn-primary" type="submit">Get My Free Estimate</button>
+          <p class="mini-note">Free estimates · Mobile service — we come to you · No obligation</p>
+        </form>
       </div>
     </div>
   </div>

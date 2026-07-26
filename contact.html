@@ -85,7 +85,57 @@
   </div>
 </section>
 
-<section class="section">
+
+<section class="section alt" id="car-estimator" style="padding-bottom:3rem">
+  <div class="container">
+    <div class="sec-head reveal">
+      <span class="tag">Interactive Estimator</span>
+      <h2>Select Your Broken Glass</h2>
+      <p>Tap the damaged glass on the vehicle, then complete the form below — your selection and VIN are attached automatically.</p>
+    </div>
+    <div class="car-select-wrap">
+      <div class="car-stage reveal">
+        <svg viewBox="0 0 360 620" role="group" aria-label="Interactive vehicle glass selector — tap a glass panel">
+          <text class="car-label" x="180" y="22" text-anchor="middle">FRONT</text>
+          <!-- car body -->
+          <path class="car-body-path" d="M60,28 C45,40 34,90 30,170 L26,300 C24,380 30,520 44,568 C52,592 68,602 96,606 L264,606 C292,602 308,592 316,568 C330,520 336,380 334,300 L330,170 C326,90 315,40 300,28 C250,12 110,12 60,28 Z"/>
+          <!-- body details -->
+          <path class="car-detail" d="M66,78 L294,78"/>
+          <path class="car-detail" d="M72,566 L288,566"/>
+          <path class="car-detail" d="M40,44 L66,54 M320,44 L294,54"/>
+          <!-- windshield -->
+          <path class="glass-part" data-part="windshield" d="M96,112 L264,112 L282,166 L78,166 Z"><title>Windshield</title></path>
+          <!-- side windows -->
+          <path class="glass-part" data-part="driver-front" d="M58,190 L88,186 L90,300 L56,304 Z"><title>Driver Front Window</title></path>
+          <path class="glass-part" data-part="driver-rear" d="M56,322 L90,318 L88,440 L58,444 Z"><title>Driver Rear Window</title></path>
+          <path class="glass-part" data-part="passenger-front" d="M272,186 L302,190 L304,304 L270,300 Z"><title>Passenger Front Window</title></path>
+          <path class="glass-part" data-part="passenger-rear" d="M270,318 L304,322 L302,444 L272,440 Z"><title>Passenger Rear Window</title></path>
+          <!-- quarter glass -->
+          <path class="glass-part" data-part="driver-quarter" d="M56,460 L84,456 L84,536 L54,546 Z"><title>Driver Quarter Glass</title></path>
+          <path class="glass-part" data-part="passenger-quarter" d="M276,456 L304,460 L306,546 L276,536 Z"><title>Passenger Quarter Glass</title></path>
+          <!-- rear windshield -->
+          <path class="glass-part" data-part="rear-windshield" d="M78,472 L282,472 L264,528 L96,528 Z"><title>Rear Windshield</title></path>
+          <!-- sunroof -->
+          <rect class="glass-part" data-part="sunroof" x="146" y="238" width="68" height="88" rx="14"><title>Sunroof / Moonroof</title></rect>
+          <text class="car-label" x="180" y="300" text-anchor="middle" style="fill:rgba(255,255,255,.35)">TAP GLASS</text>
+          <text class="car-label" x="180" y="616" text-anchor="middle">REAR</text>
+        </svg>
+      </div>
+      <div class="car-panel split-txt reveal d2">
+        <h2 style="font-size:1.6rem">What Needs Fixing?</h2>
+        <p>Windshield, side windows, rear glass, quarter glass or sunroof — tap every panel that's damaged.</p>
+        <div class="sel-chips" id="sel-chips"><span class="sel-empty" id="sel-empty">No glass selected yet — tap the car.</span></div>
+        <div class="vin-row">
+          <input id="car-vin" type="text" maxlength="17" placeholder="VIN (optional — 17 characters, matches your exact glass)" aria-label="Vehicle VIN">
+        </div>
+        <a class="btn btn-primary" href="#quote">Complete The Form Below ↓</a>
+        <p class="mini-note">Your selected glass &amp; VIN are added to your request automatically.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:2rem">
   <div class="container">
     <div class="contact-grid">
       <div class="reveal">
