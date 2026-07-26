@@ -407,6 +407,7 @@ section{position:relative}
 
 /* ---------- Responsive ---------- */
 @media(max-width:1020px){
+  .scroll-hint{display:none}
   .hero .container{grid-template-columns:1fr;padding:3.6rem 0 3.4rem;gap:2.6rem}
   .hero-media .hero-img-main{height:380px}
   .hero-card.hc1{left:6px}.hero-card.hc2{right:6px}
@@ -426,6 +427,19 @@ section{position:relative}
   .has-drop.open .dropdown{display:block}
   .f-row{grid-template-columns:1fr}
   .call-fab{display:grid}
+  .hero-video-overlay{background:linear-gradient(160deg,rgba(10,31,68,.93) 0%,rgba(13,63,134,.82) 60%,rgba(10,31,68,.92) 100%)}
+  .hero .hero-inner{padding:4.4rem 0 3.8rem}
+  .page-hero{padding:3.2rem 0 2.8rem}
+  .stats-grid{grid-template-columns:repeat(2,1fr);gap:1.6rem}
+  .modal-card{padding:1.6rem 1.2rem}
+  .scroll-modal-card{padding:2rem 1.3rem}
+  .scroll-modal-card h3{font-size:1.35rem}
+  .rev-m-card{flex:0 0 300px}
+  .toast-stack{top:auto;bottom:92px;right:12px;left:12px;align-items:stretch}
+  .toast{min-width:0;width:100%;max-width:none}
+  .sel-chip{font-size:.8rem}
+  .car-stage{padding:1.6rem 1.2rem}
+  .cta-band{padding:2.6rem 1.4rem}
   .section{padding:3.6rem 0}
   .footer-main{grid-template-columns:1fr}
   .topbar .tb-left .tb-hide-m{display:none}
